@@ -1,4 +1,5 @@
 import com.github.javafaker.Faker;
+import model.ResourceList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -6,6 +7,7 @@ import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReqresTests {
 
@@ -71,5 +73,22 @@ public class ReqresTests {
                 .post("https://reqres.in/api/users")
                 .then()
                 .statusCode(400);
+    }
+
+
+    @Test
+    @DisplayName("позитивный тест GET запроса на получение списка ресурсов")
+    void getListOfResources() {
+        ResourceList resourceList = given()
+                .contentType(JSON)
+                .when()
+                .get("https://reqres.in/api/unknown")
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract().response().as(ResourceList.class);
+        assertTrue(resourceList.getPage() <= resourceList.getTotalPages());
+        resourceList.getData().stream().forEach(x -> assertTrue(x.getId() != null));
+
     }
 }

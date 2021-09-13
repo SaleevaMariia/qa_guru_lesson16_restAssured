@@ -13,6 +13,7 @@ dependencies {
             "io.rest-assured:rest-assured:4.3.1",
             "org.assertj:assertj-core:3.19.0",
             "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+            "com.fasterxml.jackson.core:jackson-databind:2.11.2",
             "com.github.javafaker:javafaker:1.0.2")
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 }
